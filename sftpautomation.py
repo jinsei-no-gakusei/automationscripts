@@ -29,14 +29,32 @@ def getSData():
 	
 	#local directories and files
 	
-	localschdatafiles = os.listdir(r"C:\Sch\Schd\SchDataFolder")
+	localschfiles = os.listdir(r"C:\Sch\Schd\SchDataFolder")
 	
 	
 	#compare files in directories and download new files from sftp folders to local folders -- 
 	#could use python's filecmp as alternative
 	
-	deltaschdatafiles = set(schdatafiles) - set(localschdatafiles)
-	deltaschdatafiles = list(deltaschdatafiles)
+	deltaschfiles = set(schfiles) - set(localschfiles)
+	deltaschfiles = list(deltaschfiles)
+	
+	if len(deltaschfiles) != 0:
+		#print "s is not empty! Let's proceed"
+		fromaddr = 'from@gmail.com'  
+		toaddrs  = 'to@gmail.com'  
+		msg = 'Downloading new data for processing'
+
+
+		# Credentials (if needed)  
+		username = 'myusername@gmail.com'  
+		password = 'mypasswd'  
+  
+		# The actual mail send  
+		server = smtplib.SMTP('smtp.gmail.com:587')  
+		server.starttls()  
+		server.login(username,password)  
+		server.sendmail(fromaddr, toaddrs, msg)  
+		server.quit()  
 	
 	
 	
@@ -48,8 +66,8 @@ def getSData():
 	#loop through the new files
 	#download the new files and open each file and run stored proc
 	for s in deltaschdatafiles:
-		slocal_schdatafilename = os.path.join(r"C:\Raw_Data\SWGA\ScheduleDataFolder",s)
-		sftp.get('//ScheduleData/' + s, slocal_schdatafilename)
+		slocal_schfilename = os.path.join(r"C:\Raw_Data\Sch\SchFolder",s)
+		sftp.get('//Schd/' + s, slocal_schfilename)
 		cursor.execute("""exec SP_Upsert_Data ?""",b)
 		cursor.commit()
 		#count = count + 1
