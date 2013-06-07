@@ -7,7 +7,7 @@ import os, string,sys
 And then run stored procedures on SQL Server through pyodbc connection''' 
 #jinsei-no-gakusei
 
-def getSWGAData():
+def getS():
 	host = "data.com"
 	port = 2222
 	transport = paramiko.Transport((host, port))
@@ -50,10 +50,10 @@ def getSWGAData():
 	for s in deltaschdatafiles:
 		slocal_schdatafilename = os.path.join(r"C:\Raw_Data\SWGA\ScheduleDataFolder",s)
 		sftp.get('//ScheduleData/' + s, slocal_schdatafilename)
-		cursor.execute("""exec SP_Upsert_SWGA_ScheduleData ?""",b)
+		cursor.execute("""exec SP_Upsert_Data ?""",b)
 		cursor.commit()
-		count = count + 1
-		print count
+		#count = count + 1
+		#print count
 		
 	sftp.close()
 	transport.close()
@@ -62,5 +62,5 @@ def getSWGAData():
 	
 
 	return
-getSWGAData()
+getSData()
 
