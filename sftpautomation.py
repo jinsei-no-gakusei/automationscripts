@@ -7,7 +7,7 @@ import os, string,sys
 And then run stored procedures on SQL Server through pyodbc connection''' 
 #jinsei-no-gakusei
 
-def getS():
+def getSData():
 	host = "data.com"
 	port = 2222
 	transport = paramiko.Transport((host, port))
